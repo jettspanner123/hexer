@@ -33,6 +33,7 @@ struct RandomColorGeneratorPage: View {
     
     @State var showTickIcon: Bool = false
     @State var showTickVibrationTrigger: Bool = false
+    @State var favouriteButtonDisabled: Bool = false
     
     
     func generateRandomColor() -> Void {
@@ -91,6 +92,7 @@ struct RandomColorGeneratorPage: View {
         
         withAnimation {
             self.showFav = true
+            self.favouriteButtonDisabled = true
         }
         self.viewModel.colors.append(.init(red: self.redColorProfile, green: self.greenColorProfile, blue: self.blueColorProfile, hex: self.hexValue, timestamp: .now))
         self.viewModel.storage.saveColors(self.viewModel.colors)
@@ -113,6 +115,8 @@ struct RandomColorGeneratorPage: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.dismiss()
         }
+        
+        self.favouriteButtonDisabled = false
     }
     
     var body: some View {
@@ -294,7 +298,9 @@ struct RandomColorGeneratorPage: View {
                 .frame(width: 60, height: 60)
                 .background(self.applicationStates.foregroundColor, in: Circle())
                 .onTapGesture {
-                    self.addToFavourites()
+                    if !self.favouriteButtonDisabled {
+                        self.addToFavourites()
+                    }
                 }
                 
                 HStack {

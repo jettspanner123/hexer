@@ -99,29 +99,22 @@ struct HomePage: View {
             ScrollView(showsIndicators: false) {
                 
                 NavigationLink(destination: RandomColorGeneratorPage()) {
-                    if self.applicationStates.colorScheme == .light {
-                        QuickActionButton(text: "Random Colour Generator")
-                            .background(Constants.current.applicationLinearGradient, in: RoundedRectangle(cornerRadius: 18))
-                            .padding(.top, 80)
-                            .applicationHorizontalPadding()
-                    } else {
-                        QuickActionButton(text: "Random Colour Generator")
-                            .background(.appPrimary, in: RoundedRectangle(cornerRadius: 18))
-                            .padding(.top, 80)
-                            .applicationHorizontalPadding()
-                    }
-                }
-                
-                HStack {
-                    NavigationLink(destination: ColorPalletGenerator()) {
-                        QuickActionButton(text: "Colour Pallet")
+                    QuickActionButton(text: "Random Colour Generator")
                         .background(Constants.current.applicationThanosLinearGradient, in: RoundedRectangle(cornerRadius: 18))
-                    }
-                    QuickActionButton(text: "AI Colour")
-                        .background(Constants.current.applicationRedLinearGradient, in: RoundedRectangle(cornerRadius: 18))
+                        .padding(.top, 80)
+                        .applicationHorizontalPadding()
                 }
-                .frame(maxWidth: .infinity)
-                .applicationHorizontalPadding()
+//                
+//                HStack {
+//                    NavigationLink(destination: ColorPalletGenerator()) {
+//                        QuickActionButton(text: "Colour Pallet")
+//                        .background(Constants.current.applicationThanosLinearGradient, in: RoundedRectangle(cornerRadius: 18))
+//                    }
+//                    QuickActionButton(text: "AI Colour")
+//                        .background(Constants.current.applicationRedLinearGradient, in: RoundedRectangle(cornerRadius: 18))
+//                }
+//                .frame(maxWidth: .infinity)
+//                .applicationHorizontalPadding()
                 
                 
                 

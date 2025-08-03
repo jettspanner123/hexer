@@ -43,11 +43,14 @@ struct FetchedColorCard: View {
     }
     
     @State var isLoading: Bool = false
+    @State var vibrationState: Bool = false
     
     func handleDelete() -> Void {
         withAnimation {
             self.isLoading = true
         }
+        
+        self.vibrationState.toggle()
         
         Task {
             Firestore.firestore().collection("colors").document(self.color.id).delete()
@@ -163,6 +166,7 @@ struct FetchedColorCard: View {
             self.handleCopyToClipboard()
         }
         .sensoryFeedback(.impact, trigger: self.toggleVibration)
+        .sensoryFeedback(.error, trigger: self.vibrationState)
         .applicationHorizontalPadding()
         .transition(.blurReplace)
     }
