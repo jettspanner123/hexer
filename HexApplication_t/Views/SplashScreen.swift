@@ -11,6 +11,7 @@ import FirebaseFirestoreCombineSwift
 
 struct SplashScreen: View {
     @EnvironmentObject var applicationStates: ApplicationStates
+    @Environment(\.colorScheme) var systemColorScheme
     
     func fetchColor() -> Void {
         Task {
@@ -36,6 +37,12 @@ struct SplashScreen: View {
         .background(self.applicationStates.backgroundColor)
         .onAppear {
             self.fetchColor()
+            
+            if self.systemColorScheme == .dark {
+                self.applicationStates.colorScheme = .dark
+            } else {
+                self.applicationStates.colorScheme = .light
+            }
         }
     }
 }
