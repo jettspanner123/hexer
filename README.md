@@ -2,6 +2,8 @@
 
 **Hex Color Generator** is a sleek and minimalistic iOS application built with **SwiftUI** that allows users to effortlessly generate random colors along with their Hex and RGB values. The app is designed to support both **dark and light mode**, ensuring a seamless user experience across all display preferences.
 
+<img src="/Hexer.png" alt="Image of the application hexer"/>
+
 ## ✨ Features
 
 - 🔁 **Random Hex Color Generator**  
