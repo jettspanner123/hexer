@@ -7,11 +7,16 @@
 
 import SwiftUI
 import SwiftData
+import FirebaseCore
 
 @main
 struct HexApplication_tApp: App {
     
     @StateObject var applicationStates: ApplicationStates = .init()
+    
+    init() {
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {

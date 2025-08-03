@@ -8,6 +8,7 @@ enum ColorScheme: String {
 class ApplicationStates: ObservableObject {
     
     @Published var colorScheme: ColorScheme = .light
+    @Published var fetchedColors: Array<CustomColor> = []
     var backgroundColor: Color {
         return self.colorScheme == .dark ? .black : .white
     }

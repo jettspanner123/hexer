@@ -11,8 +11,10 @@ struct HomePage: View {
     
     
     @EnvironmentObject var applicationStates: ApplicationStates
+    @StateObject var manager = ColorViewModel()
     var screenDimentions = UIScreen.main.bounds
     
+    var temp: CustomColor = .init(red: 22, green: 32, blue: 123, hex: "#123123", timestamp: .now)
     
     var darkModeIcon: some View {
         
@@ -55,6 +57,22 @@ struct HomePage: View {
                 
                 Spacer()
                 
+                HStack {
+                    
+                    Image(systemName: self.manager.isOnline ? "network" : "network.slash")
+                        .foregroundStyle(self.applicationStates.foregroundColor)
+                    
+                    Text(self.manager.isOnline ? "Online" : "Offline")
+                        .foregroundStyle(self.applicationStates.foregroundColor)
+                }
+                .frame(height: 45)
+                .padding(.horizontal)
+                .background(.gray.opacity(0.1), in: Capsule())
+                .overlay {
+                    Capsule()
+                        .stroke(self.applicationStates.foregroundColor.opacity(0.25))
+                }
+                
                 self.darkModeIcon
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -68,7 +86,7 @@ struct HomePage: View {
                     .background(.black.opacity(0.1))
                     .blur(radius: 15)
             )
-            .offset(y: -100)
+            .offset(y: -90)
             .zIndex(11)
             
             
@@ -82,28 +100,52 @@ struct HomePage: View {
                 
                 NavigationLink(destination: RandomColorGeneratorPage()) {
                     if self.applicationStates.colorScheme == .light {
-                        QuickActionButton(text: "Random Color Generator")
+                        QuickActionButton(text: "Random Colour Generator")
                             .background(Constants.current.applicationLinearGradient, in: RoundedRectangle(cornerRadius: 18))
-                            .padding(.top, 75)
+                            .padding(.top, 80)
                             .applicationHorizontalPadding()
                     } else {
-                        QuickActionButton(text: "Random Color Generator")
+                        QuickActionButton(text: "Random Colour Generator")
                             .background(.appPrimary, in: RoundedRectangle(cornerRadius: 18))
-                            .padding(.top, 75)
+                            .padding(.top, 80)
                             .applicationHorizontalPadding()
                     }
                 }
                 
                 HStack {
-                    QuickActionButton(text: "Color Pallet")
+                    NavigationLink(destination: ColorPalletGenerator()) {
+                        QuickActionButton(text: "Colour Pallet")
                         .background(Constants.current.applicationThanosLinearGradient, in: RoundedRectangle(cornerRadius: 18))
-                    QuickActionButton(text: "Favourites")
+                    }
+                    QuickActionButton(text: "AI Colour")
                         .background(Constants.current.applicationRedLinearGradient, in: RoundedRectangle(cornerRadius: 18))
                 }
                 .frame(maxWidth: .infinity)
                 .applicationHorizontalPadding()
                 
-                SectionHeader(title: "Previous Generated Button")
+                
+                
+                
+                // MARK: Previous generated colors
+                SectionHeader(title: "Previous Generated Colours")
+                
+                
+                // MARK: Fallback for no items
+                if self.applicationStates.fetchedColors.isEmpty {
+                    Image(systemName: "tray.fill")
+                        .resizable()
+                        .frame(width: 110, height: 90)
+                        .foregroundStyle(self.applicationStates.foregroundColor.opacity(0.2))
+                        .padding(.top, 35)
+                    Text("No Colours Yet")
+                        .font(.system(size: 18, weight: .regular, design: .rounded))
+                        .foregroundStyle(self.applicationStates.foregroundColor.opacity(0.2))
+                }
+                
+                ForEach(self.applicationStates.fetchedColors, id: \.id) { color in
+                    FetchedColorCard(color: color)
+                }
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
@@ -112,27 +154,5 @@ struct HomePage: View {
     }
 }
 
-struct SectionHeader: View {
-    
-    var title: String
-    var seeMoreButtonTitle: Bool = false
-    
-    @EnvironmentObject var applicationStates: ApplicationStates
-    
-    var body: some View {
-        HStack {
-            Text(self.title)
-                .font(.custom(Fonts.current.pixelRegular, size: 20))
-                .foregroundStyle(self.applicationStates.foregroundColor)
-            
-            Spacer()
-            
-            if !self.title.isEmpty {
-                
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal, Constants.current.paddingHorizontal + 5)
-        .padding(.top, 20)
-    }
-}
+
+
